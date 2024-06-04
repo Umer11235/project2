@@ -1,5 +1,6 @@
 import Button from "@/components/button";
 import Icons from "@/components/customIcons";
+import { getUserData } from "@/components/getuserData_cookie";
 import Dropdown from "@/components/inputs/dropdown";
 import TextInput from "@/components/inputs/textbox";
 import TopNav from "@/components/topNav";
@@ -7,7 +8,8 @@ import { useState } from "react";
 
 const Page = () => {
 
-
+  const userData = getUserData();
+console.log(userData);
 const options=
   [
     { value: '1', label: 'One' },

@@ -80,7 +80,7 @@
 
 
 
-.LoginCard > input {
+.LoginCard > .LoginCardtext {
   max-width: 468px;
   height: 50px;
   flex-shrink: 0;
@@ -550,3 +550,20 @@ margin: auto;
 flex-shrink: 0;
 background: #EEEBEE;
 }
+
+
+
+.reactloader{
+
+  display: flex;
+  align-items: center;
+ 
+  justify-content: center;
+
+  padding: 100px;
+  
+}
+
+
+
+

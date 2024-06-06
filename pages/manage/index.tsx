@@ -5,11 +5,113 @@ import Dropdown from "@/components/inputs/dropdown";
 import TextInput from "@/components/inputs/textbox";
 import TopNav from "@/components/topNav";
 import { useState } from "react";
+import { IFormAttributes } from "./Interface";
+import { useFormik } from "formik";
+import { ValidationSchema } from "./ValidationSchema";
+import { ToastContainer, toast } from "react-toastify";
+import createAxiosInstance from "@/components/FetchApi";
+// import "react-toastify/dist/ReactToastify.css";
+import "react-toastify/ReactToastify.css";
+
+
+
 
 const Page = () => {
 
-  const userData = getUserData();
-console.log(userData);
+  const axiosInstance = createAxiosInstance(process.env.NEXT_PUBLIC_API_BASE_URL,"application/json"); 
+
+  
+  const initialValues: IFormAttributes = {
+  Email: "",
+  First_Name: "",
+   Last_Name : "",
+  Middle_Name:  "",
+  City:  "",
+  Country: "",
+  Zip:  "",
+  Language:  "",
+  Id:""
+  
+
+  };
+
+  
+
+
+
+
+
+
+
+  const formik = useFormik({
+    initialValues: initialValues,
+    // validationSchema: ValidationSchema,
+    onSubmit:async(value) => {
+     
+
+      const notify = () => {
+        toast.success("This is a success notification!");
+      };
+
+      const formdata = new FormData();
+
+      formdata.append("Email", value.Email);
+      formdata.append("First_Name", value.First_Name);
+      formdata.append("Last_Name",value.Last_Name);
+      formdata.append("Middle_Name ", value.Middle_Name);
+formdata.append("City ",value.City);
+      formdata.append("Country", value.Country);
+      formdata.append("Zip", value.Zip);
+      formdata.append("Language", value.Language);
+      // formdata.append("Id",value.Id);
+
+      // formdata.append("Id", value.Id === null ? "" : value.Id.toString());
+
+      
+
+      
+
+
+
+
+
+      // //@ts-ignore
+      // formdata.append("Image", value.Pic);
+
+      
+      console.log(value);
+
+ 
+
+      const data =await axiosInstance.post('User',formdata, {
+     
+      }).then((resp:any)=>{
+       
+      
+notify();
+
+      }).catch((err:string)=>{
+      toast.error("network issue// you should pass uniqe id");
+      });
+
+
+    },
+  });
+
+
+
+  const notify = () => {
+    toast.success("This is a success notification!");
+    
+  };
+
+
+
+
+
+
+
+
 const options=
   [
     { value: '1', label: 'One' },
@@ -70,41 +172,69 @@ const options=
             {activeSection == "SoulStars" ? (
               <>
                 <div className="manageForm w-100">
-                  <form className="w-100">
+                  <form className="w-100" onSubmit={formik.handleSubmit}>
+                
+
                     <TextInput
                       label="First Name"
                       customClass="txt-input"
                       placeholder="Jhon Doe"
-                    />
+                      onchange={formik.handleChange}
+                    name="First_Name"
+                    />     
+                    
+                    
+                    
+                    
+                 
                     <TextInput
                       label="Last Name"
                       customClass="txt-input"
                       placeholder="Jhon Doe"
+                      onchange={formik.handleChange}
+                      name="Last_Name"
                     />
+
+
+<TextInput
+                      label="Email"
+                      customClass="txt-input"
+                      placeholder="Jhon Doe"
+                      onchange={formik.handleChange}
+                  name="Email"
+                  />
+
+
                     <TextInput
                       label="City"
                       customClass="txt-input"
                       placeholder="Jhon Doe"
-                    />
+                      onchange={formik.handleChange}
+                  name="City"
+                  />
                     <TextInput
                       label="Country"
                       customClass="txt-input"
                       placeholder="Jhon Doe"
-                    />
+                      onchange={formik.handleChange}
+                    name="Country"/>
                     <TextInput
                       label="Zip/Postal Code"
                       customClass="txt-input"
                       placeholder="Jhon Doe"
-                    />
+                      onchange={formik.handleChange}
+                    name="Zip "/>
 
-<Dropdown select="Select" options={options} placeholder="select" />
+<Dropdown select="Select" options={options} placeholder="select" onchange={formik.handleChange} name="Language"/>
 
                     <Button
                       title="Save"
                       customClass={"btn btn-active btn-txt w-100 my-4"}
-                      onClick={() => {
-                        onItemClick("SoulStars");
-                      }}
+                      // onClick={() => {
+                      //   onItemClick("SoulStars");
+                     
+                      // }}
+                      onClick={formik.handleChange }
                     />
                     {/* <select
                 className="form-select"
@@ -116,7 +246,7 @@ const options=
                 <option value="3">Three</option>
               </select> */}
 
-                    
+<ToastContainer />
                   </form>
                 </div>
               </>

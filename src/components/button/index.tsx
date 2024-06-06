@@ -7,7 +7,7 @@ const Button = ({ title, onClick, customClass,icon }: IButton) => {
   
   
   return (
-    <button className={`${customClass || ""}`} onClick={onClick}>
+    <button  type="submit" className={`${customClass || ""}`} onClick={onClick}  name="onSubmit" >
       {
 
       

@@ -5,7 +5,7 @@ function Dropdown(props:Idropdown) {
 
 <>
 <label>Language</label>
-        <select className="form-select mt-3" aria-label="Default select example">
+        <select className="form-select mt-3" aria-label="Default select example" onChange={props.onchange} name={props.name}>
   <option selected>{props.select}</option>
 {props.options.map((option,i)=>{
 return(

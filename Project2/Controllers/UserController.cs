@@ -2,6 +2,7 @@
 using database.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using models.Models_DTO;
 using models.Models_tbl;
 
 namespace Project2.Controllers
@@ -39,11 +40,24 @@ namespace Project2.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Users_tbl customer)
+        public async Task<IActionResult> Post([FromBody] Users_dto customer)
         {
-            await _unitOfWork.userTbl.AddAsync(customer);
+            
+
+            var data = new Users_tbl
+            {
+                City = customer.City,
+                Country = customer.Country,
+                First_Name = customer.First_Name,
+                Last_Name = customer.Last_Name,
+                Email = customer.Email,
+                Language = customer.Language,
+                Zip = customer.Zip
+            };
+
+            await _unitOfWork.userTbl.AddAsync(data);
             await _unitOfWork.CommitAsync();
-            return CreatedAtAction(nameof(Get), new { id = customer.Id }, customer);
+            return CreatedAtAction(nameof(Get), new { id = data.Id }, customer);
         }
 
         [HttpPut("{id}")]
